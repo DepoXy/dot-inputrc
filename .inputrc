@@ -1,0 +1,645 @@
+# Author: Landon Bouma (landonb &#x40; retrosoft &#x2E; com)
+# Project: https://github.com/DepoXy/dot-inputrc#🎛️
+# License: MIT
+
+# Copyright © 2016, 2020, 2022-2023 Landon Bouma. All Rights Reserved.
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# SAVVY/2022-10-17: Per `man bash`, you can easilky `bind -f <path>`
+# to load new bindings from a file, and you can `bind -u <function>`
+# to unbind all keys bound to the named <function>, but there's not
+# a command to unbind *everything*. Other than opening a new shell.
+# Which is not so bad on Linux -- it's fast! But on macOS, at least
+# with Homebrew, booting up a Bash shell tasks ~90 secs., not joke!
+# - So you might want to demo edits on Linux first, then try macOS.
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# Historically, most ~/.inputrc source the system inputrc, e.g.,
+#
+#   $include /etc/inputrc
+#
+# But this file now (2022-10-17) incorporates those settings instead.
+#
+# Originally, it was because macOS nor Homebrew includes a system
+# inputrc (there's no /etc/inputrc or equivalent on macOS, not even
+# after `brew install bash` or `brew install readline`), so so we'll
+# need those bindings anyway for macOS.
+#
+# Fortunately, or at least it'd make our ~/.inputrc easier, readline
+# doesn't blather about missing $include files. So we could share the
+# same ~/.inputrc between Linux and macOS with $include's that we know
+# will fail, e.g.,
+#
+#   # Include Linux systemwide inputrc [noop on macOS]
+#   $include /etc/inputrc
+#   # Include macOS copy of Linux /etc/inputrc [noop on Linux]
+#   $include ~/inputrc-etc
+#   # - Note that readline $include resolves `~`, but not `${ENVIRONs}`.
+#
+# But then, like, seriously, dude, what's the point?
+# - We might as well just pull /etc/inputrc into this file!
+# So that's what we'll have done did.
+#
+# Oh, and it's also interesting that Homebrew Bash doesn't load
+# ~/.inputrc if it's a symbolic link. Also curious I searched on
+# this and found no hits -- no one else discovering and complaining
+# about these same issues?? I guess maybe I'm the only dev running
+# Linux Mint @home and endeavoring to run macOS @work. (macOS is not
+# a bad OS, and I like ensuring that all my open source code runs on
+# both, but sometimes it's a frustrating, seemingly lonely journey.
+# Though I will say, if you consider my 3750-line macOS `defaults`
+# customizer ~/.kit/mOS/macOS-onboarder/slather-defaults.sh maybe
+# it's no wonder not many Linux-lubbers take the time to onboard macOS
+# to their liking -- it's a real pain in the Apple.)
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# COPYD/2022-10-17: This is a select subset of /etc/inputrc from Bash 4.4.20
+# from Linux Mint 19.3, nor sure which readline version, and I checked and
+# this appears to be stock Bash and not a custom build. In any case, not like
+# /etc/inputrc probably every changes.
+
+# The following is copied from /etc/inputrc and not the author's word.
+# - EXPLAIN: Though I am curious why there are three variations of
+#   fwd/bwd-word, each with a unique prefix: \e[15; \e[5, and \e\e[, e.g.,
+#     "\e[1;5C": forward-word
+#     "\e[5C": forward-word
+#     "\e\e[C": forward-word
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# /etc/inputrc - global inputrc for libreadline
+# See readline(3readline) and `info rluserman' for more information.
+
+# Be 8 bit clean.
+set input-meta on
+set output-meta on
+
+# some defaults / modifications for the emacs mode
+$if mode=emacs
+
+# allow the use of the Home/End keys
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+# allow the use of the Delete/Insert keys
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+$endif
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# 2022-10-17: And it's after seeing how little that file contains that
+# we need that I'm doubting the two hours I spent digging into this.
+# - Yes, I believe macOS should supply a default /etc/inputrc.
+# - But it's also something I took for granted:
+#   - I really only used the Ctrl-Left and Ctrl-Right motions
+#     (backward-word and forward-word). But I ever inspected
+#     /etc/inputrc well enough to realize that's pretty much
+#     all it offers. Ha! This whole time I could've just pulled
+#     those bindings into my own config and not worried about
+#     the sytem file. Oy. Also, the onus was on anyone with a
+#     ~/.inputrc file to `$include /etc/inputrc`. So I bet most
+#     people just probably copied those few settings into their
+#     own config. Oh jeez. What a maroon.
+#     - As they say in Minnesota, Ope!
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
+# 2020-02-11: Ctrl-Shift-t Ctrl+T C-S-t was mapped to mate-terminal's new-tab,
+# but I fixed that.
+# - Oh, wait, mate-terminal captures Ctrl+Shift+CHAR combos,
+#   but I don't think readline differentiates between Ctrl+[a-z] and Ctrl+[A-Z],
+#   because ASCII compatibility... Ctrl+Shift works with some special keys and punct?
+#   so confused...
+"\C-T": transpose-chars
+# Works, remembering that regular Alt-t is transpose-words.
+# Huh. The do-lowercase-version shows up in
+#   $ bind -p | grep '"\\e' | sort
+#   ...
+#   "\eT": do-lowercase-version
+# but it's not in the docs. The upcase version is, though:
+#   do-uppercase-version (M-a, M-b, M-x, ...)
+#     If  the  metafied character x is lowercase, run the command
+#     that is bound to the corresponding uppercase charac‐ter.
+# OH! I finally get it!!!
+# - If you see `do-lowercase-version`, it just means to run the command
+#   bound to the lowercase version! So, by default, Alt-T is alias to alt-t,
+#   essentially. Or, Alt-T runs the command bound to Alt-t.
+#   So if you see this, feel free to override!
+# 2020-02-11: Aha! Why didn't I think of this earlier...
+"\et": transpose-chars
+"\eT": transpose-words
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# #######################################################################
+# ***                   Your Inputrc Documentation                    ***
+# #######################################################################
+
+# HINT:
+#
+#   - You can easily view the current bindings:
+#       bind -V
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# @@ SON @@ START OF NOISE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#   - To see the key bindings that are bound:
+#       bind -p
+#
+#   - To see exclusively Ctrl-<key> bindings:
+#       bind -p | grep -F "\C"
+#       bind -m emacs-standard -p | grep -F "\C"
+#       bind -m vi-insert -p | grep -F "\C"
+#       bind -m vi-command -p | grep -F "\C"
+
+
+#       All the Ctrl-<letter>'s are pretty much taken.
+#       - Note that the fzf Ctrl-t and Ctrl-r overrides so not show in this list!
+#       - FIXME/2020-02-11: I think there's a specific way to show those overrides?
+#
+#         bind -p | grep '"\\e' | sort
+#
+#       But not all the Alt-combos are taken, and with Alt,
+#       you have twice as many letter combinations, because
+#       you can use the Shift key with Alt, but not with Ctrl.
+#
+#         bind -p | grep '"\\C' | sort
+#
+#       To see what keys are available, look for mappings to
+#       the other case version of a combination.
+#
+#         bind -p | grep 'case-version' | sort
+#
+#       All the Ctrl-x [A-Z] combinations are open!
+#
+#         "\C-xA": do-lowercase-version
+#         ...
+#         "\C-xZ": do-lowercase-version
+#
+#       And then I see all but the 'O' Alt+[A-Z] combos map to their
+#       lower equivalent.
+#
+#         "\eA": do-lowercase-version
+#         ...
+#         "\eN": do-lowercase-version
+#         "\eP": do-lowercase-version
+#         ...
+#         "\eZ": do-lowercase-version
+#
+#       Curious about what are the lowercase letter mappings.
+#       - I thought it'd be more!:
+#
+#         # bind -p | grep '"\\e' | sort
+#         $ bind -p | grep '"\\e[a-z]' | sort
+#         "\eb": backward-word
+#         "\ed": kill-word
+#         "\ef": forward-word
+#         "\eg": glob-complete-word
+#         "\el": downcase-word
+#         "\en": non-incremental-forward-search-history
+#         "\ep": non-incremental-reverse-search-history
+#         "\er": redraw-current-line
+#         "\et": transpose-words
+#         "\eu": upcase-word
+#         "\ey": yank-pop
+
+#       WRKLG/2020-02-11: Hrmm:
+#
+#         $ bind -m emacs-standard -X
+#         "\C-t": "fzf-file-widget"
+#         $ bind -m emacs-standard -s
+#         "\C-r": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"
+#         "\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"
+
+# yank-nth-arg M-C-y   ---> how do you send 'n' arg? m-c-y just grabs 1st arg...
+#   -- oh yeah, esc+number or alt+number first, then command,
+#                      use alt-- to specify negative
+#
+# yank-last-arg M-. or M-_  ===> ALT-DOT is awesome sauce!  (ESC-. also works)
+#   -- press again and it uses last arg from second-to-last command, etc.
+#   -- if you press alt-number then alt-dot it'll grab that arg # (or use m-c-y but m-. easier)
+
+# Instead of globbin* you can C-M-S-* to add all completions to command line
+
+# Note that ESC is already wired to starting Meta command, for keyboards without an Alt key.
+
+# C-a beg line, C-e end line, C-f C-b fwd/bck word, M-f M-b fwd/bwd word (letters+digits)
+
+# M-r revert-line, M-~ tilde expand.
+# Note that Ctrl-w *kills*! So you could *yank* it back! C-y.
+# Ctrl-k kills to end of line, C-x Backspace or C-u kill backward to ^.
+# Diff. btw. C-w (whitespace is word boundary) and M-DEL (letters+digits is word, like M-b)
+
+# C-@ set mark, C-x C-x exchange point and mark
+# C-] character-search, M-C-[ character-search-backward
+
+# Alt-t transpose words!
+# Alt-u Alt-l Alt-c upcase lowcase capitalize
+
+# I think the ANSI color codes have a Control Sequence Indicator (CSI): ESC-[ or "\e["
+# CXREF/2020-03-21:
+#    https://unix.stackexchange.com/questions/12107/
+#       how-to-unfreeze-after-accidentally-pressing-ctrl-s-in-a-terminal#12146
+# "Escape (^[) followed by [ is an Escape sequence that represents
+#  the CSI ANSI Control charater. CSI starts an ANSI Control sequence."
+# E.g., "pink" is an ANSI Control sequence that starts with an ANSI Escape sequence:
+#         printf "\033[38;2;255;135;175m"
+# See also:
+#   http://www.inwap.com/pdp10/ansicode.txt
+
+# M-# insert-comment M-S-3 -- comments line and hits return!
+# - NO MORE ``<Ctrl-a>echo <ENTER>`` business!
+
+# emacs ↔ vi editing mode : C-e ↔ M-C-j
+
+# @@ EON @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# #######################################################################
+# ***                 ODD - Other Devs' Documentation                 ***
+# #######################################################################
+
+# SHOUT-OUTS:
+#
+#   - "Working Productively in Bash's Vi Command Line Editing Mode (with Cheat Sheet)"
+#       https://catonmat.net/bash-vi-editing-mode-cheat-sheet
+#
+#   - "What is your single most favorite command-line trick using Bash? [closed]"
+#       https://stackoverflow.com/questions/68372/what-is-your-single-most-favorite-command-line-trick-using-bash
+#
+#   - "Tmux and Vim — even better together" / by Keegan Lowenstein / "A more vim-like shell"
+#       https://www.bugsnag.com/blog/tmux-and-vim
+#
+#   - "You can make readline (and bash) much more user friendly by adding a few options to ~/.inputrc"
+#       https://www.reddit.com/r/commandline/comments/kbeoe/you_can_make_readline_and_bash_much_more_user/
+#
+#   - "Things You Didn't Know About GNU Readline" - 0b10
+#       https://twobithistory.org/2019/08/22/readline.html
+
+# ***
+
+# ALTERNATIVELY: You could put these bindings in ~/.bashrc (i.e., Home-fries).
+#
+# One of the articles above includes commenter who suggests:
+#
+#   Put contents of ~/.inputrc into .bashrc
+#   (with caveat that these options are only available on shell
+#   on not to programs that use readline):
+#
+# Procedure: Quote the line herein from .inputrc and send to `bind`, e.g.,
+#
+#   # Somewhere in your .bashrc:
+#   bind 'set colored-stats on'
+#   ...
+#   bind '"\e[1;3D": beginning-of-line'
+#
+# (lb): Me, I'm not sure it matters one way or t'other.
+#       If I find out it matters, I'll either make the
+#       change, or I'll update this comment.
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# #######################################################################
+# ***                       Readline Variables                        ***
+# #######################################################################
+
+# Use colors and/or characters to indicate file type in completion suggestions.
+# (lb): I like using just colored-stats, but not visible-stats.
+# - Using colored-stats, e.g., symlinked directory is cyan, regular directory is blue;
+#                              and directories end with trailing slash, e.g., `symlink/`.
+# - Using visible-stats, e.g., symlink shows '@' postfix, e.g., `symlink@`.
+# - Trade-off: When visible-stats On, the trailing slash is not displayed for symlinked
+#              directories, which sorta feels like a deal-breaker for me -- I prefer
+#              the trailing slash over the trailing at sign, especially because the
+#              symlink-or-not information is still conveyed using color.
+set colored-stats off
+# Nope:
+#   - E.g., show '@' after symlink name.
+#   - Though I just uncommented, and opened a new terminal, and ran `ll`,
+#     and I don't see any new or different annotations.
+#   - Per `man readline`: "If set to On, a character denoting a file's type
+#     as reported by stat(2) is appended to the filename when listing possible
+#     completions."
+#   set visible-stats On
+
+# ***
+
+# Append slash to completed directory names (already 'on' by default).
+set mark-directories on
+
+# And also add trailing path separator to completed symlink names (so
+# it behaves the same as for normal directories, per mark-directories).
+# - CAVEAT: Note that completion after `/bin/rm` could lead to a
+#   complaint if you forget to remove the trailing slash, e.g.,
+#     $ mkdir somedir
+#     $ ln -s somedir symldir
+#     $ /bin/rm sym<TAB>
+#     $ /bin/rm symldir/<CR>
+#     /bin/rm: cannot remove 'symldir/': Is a directory
+#     $ /bin/rm symldir<CR>
+#     # Profit!
+set mark-symlinked-directories on
+
+# ***
+
+# Caseless completion, so you don't have to use uppercase.
+set completion-ignore-case on
+
+# ***
+
+# Press tab and you get truncated file names, like ...-2.jpg, ...-3.jpg, etc.
+# MAYBE/2020-02-07: Another example I saw used '3' here. What's the diff?
+set completion-prefix-display-length 2
+
+# ***
+
+# When completing from the middle of a word, do not include matching trailing
+# characters.
+set skip-completed-text on
+
+# ***
+
+# page-completions ('on' by default) "uses an internal more-like
+# pager to display a screenful of possible completions at a time.'
+# - Sure, disable it! My fingers are already quick to Shift-PageUp/-PageDown
+#   in the terminal to scroll text, and this way we save one keystroke,
+#   because we don't have to interact with more! Otherwise, we'd have to
+#   press 'q' to dismiss it or 'space' to continue it, or be annoyted that
+#   other keys do nothing to more, forcing us to comply. So, turn this Off!
+set page-completions off
+
+#   completion-query-items (100)
+#     This determines when the user is queried about viewing the number of
+#     possible completions generated by the possible-completions command.
+#     It may be set to any integer value greater than or equal to zero. If the
+#     number of possible completions is greater than or equal to the value
+#     of this variable, the user is asked whether or not he wishes to view
+#     them; otherwise they are simply listed on the terminal. A negative value
+#     causes readline to never ask.
+# Twiddle how many suggestions trigger the confirmation.
+# E.g., on what I type a<TAB>, I see:
+#   $ a<TAB>
+#   Display all 188 possibilities? (y or n)
+# But akin to page-completions, I can deal with terminal output; but what I
+# cannot deal with is an additional, unnecessary keystroke! So set this high.
+# (I got the number 9001 from one of the articles REFerenced above; not sure
+# if there's any significance. In any case, I cannot think of any case where
+# there'd be more than hundreds of files in a directory that I'd be listing,
+# but nonetheless we can set this higher than high and deal with it later if
+# you find it's obnoxious. But what'll really happen is you'll forgot you ever
+# twiddled this option, and years later you'll waste a minute re-reading this
+# comment.)
+set completion-query-items 9001
+
+# ***
+
+# "underscores and hyphens are treated equally when completing"
+set completion-map-case on
+
+# ***
+
+# Make it so that completions happen immediately on one TAB, not two.
+
+# So that completions happen on first TAB, and not on second press. Docs say:
+# "If set to On, words which have more than one possible completion cause
+#  the matches to be listed immediately instead of ringing the bell."
+set show-all-if-ambiguous on
+
+# "This alters the default behavior of the completion functions in a fashion
+#  similar to show-all-if-ambiguous. If set to On, words which have more
+#  than one possible completion without any possible partial completion (the
+#  possible completions don't share a common prefix) cause the matches
+#  to be listed immediately instead of ringing the bell."
+set show-all-if-unmodified on
+
+# ───────────────────────────────────────────────────────────────── #
+# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
+# ───────────────────────────────────────────────────────────────── #
+
+# #######################################################################
+# ***                          Key Bindings                           ***
+# #######################################################################
+
+# This one might be too weird...
+
+# ** Control-j: menu-complete**
+# ** Control-k: menu-complete-backward**
+#   menu-complete
+#      Similar to complete, but replaces the word to be completed with a
+#      single match from the list of possible comple‐ tions. Repeated
+#      execution of menu-complete steps through the list of possible
+#      completions, inserting each match in turn. At the end of the list of
+#      completions, the bell is rung (subject to the setting of bell-style)
+#      and the original text is restored. An argument of n moves n positions
+#      forward in the list of matches; a negative argu‐ ment may be used
+#      to move backward through the list. This command is intended to be
+#      bound to TAB, but is unbound by default.
+#   menu-complete-backward
+#      Identical to menu-complete, but moves backward through the list of
+#      possible completions, as if menu-complete had been given a negative
+#      argument. This command is unbound by default.
+
+# ***
+
+# Change search history from Ctrl-R/Ctrl-S
+#
+#"\e[5~": history-search-backward
+#"\e[6~": history-search-forward
+#"\C-f": history-search-backward
+#"\C-g": history-search-forward
+
+# 2016-06-28: Enhance ^R by using arrow keys instead.
+#             Hit Up/Down to cycle history
+#              rather than Ctrl-R/Ctrl-S.
+#  https://stackoverflow.com/questions/68372/what-is-your-single-most-favorite-command-line-trick-using-bash
+"\C-[[A": history-search-backward
+"\C-[[B": history-search-forward
+# See alternative, equivalent escaping (either the previous
+# format or the following format works on both Ubuntu and macOS)
+# (FIXME: though a comment elsewhere herein says not to use \e ??):
+#  "\e[A": history-search-backward
+#  "\e[B": history-search-forward
+
+# 2020-02-07: Another suggestion for history search is C-p/C-n,
+# but AFAICK, these are already wired as such.
+#   "\C-p":history-search-backward
+#   "\C-n":history-search-forward
+
+# For some reason I'm including some guy's Mac-style .inputrc entries:
+#  bind '"\e[A"':history-search-backward
+#  bind '"\e[B"':history-search-forward
+
+# ***
+
+# Alt-Left moves cursor to beginning of line.
+"\e[1;3D": beginning-of-line
+
+# Alt-Right moves cursor to end of line.
+"\e[1;3C": end-of-line
+
+# ***
+
+# https://brettterpstra.com/2015/07/09/shell-tricks-inputrc-binding-fun/
+
+# Alt-x: Jump to the target folder of the last command and run ls.
+# Use case: Run after, e.g., `tar xvzf ...`.
+# Note that \015 is ENTER, and can always be writ \C-m
+#
+# FIXME/2020-02-11: Give this a shot. Verify binding!
+#
+#  "\ex": 'cd !$ \015ls\015'
+
+# Alt-z: Undo directory change (basically runs ``cd -``).
+# - 2020-02-11: Ha! I kinda like this...
+#
+"\ez": 'cd -\015'
+
+# Surround line with $(...) command substitution (subshell) syntax.
+#
+# Alt-ENTER: Surround line in *quoted* subshell and *move cursor to line beginning*.
+# "Wrap the current line as an inline command substitution, and place the cursor
+#  back at the beginning"
+#
+# FIXME/2020-02-11: ENABLE THIS. Verify the binding you want.
+#
+#   "\e\C-m": '\C-a "$(\C-e)"\C-a'
+
+# Alt-/: "Automatically submit output - a variation [of subshell surround] that
+#  uses the !! operator to repeat the last command, then pipes the result to fzf,
+#  returning the result of [the] selection to whatever command [is] prefixed."
+#
+# USAGE: E.g., if you had just run `ls *.rst`, you could then type
+#              `vim<Alt-/>` to craft a command sending ls results to fzf to vim.
+#
+#
+# FIXME/2020-02-11: Remove the space from this command? Says blog::
+#
+#     The \C-a followed by a space in this macro will jump to the beginning of the
+#     line and insert the space, which will prevent the command from being added to
+#     shell history (if you have the HISTCONTROL=ignorespace history option enabled).
+#
+# Except I've disabled ignorespace, I save everything!!
+#
+#
+# NOTE ALSO::
+#
+#      Because I have the magic-space history expansion enabled (Space:
+#      magic-space in .inputrc), the space after the \C-a will also expand the
+#      !! to the full command. I follow it with two \C-m (Returns) because of
+#      the way this shell expansion is set up in my Terminal, but in some cases
+#      a single \C-m (or \015) will do the trick.
+#
+# SPIKE/2020-02-11: What's this option?:
+#   Space: magic-space
+#   "the space after the \C-a will also expand the !! to the full command"
+#
+#
+# FIXME/2020-02-11: ENABLE THIS. Verify the binding you want.
+#
+#   "\e/": '"$(!!|fzf)"\C-a \C-m\C-m'
+
+# ***
+
+# 0b10 [2bit hist] nuggets.
+
+# - Map C-k to killing whole line, not just what's after cursor.
+#   Default: C-k: kill-line
+#  Control-k: kill-whole-line
+
+# - Map C-o to adding output redirect to file.
+#   - Though if I were to do this, I'd probably involve a tmpdir...
+#   Default: C-o: operate-and-get-next
+#  Control-o: "> output.txt"
+
+# - A less advanced version of subshelling that brettterpstra.com's.
+#   - Default: C-j: accept-line
+#   Control-j: "\C-a$(\C-e)"
+
+# If you abandon an edited history like, do not save the edit!
+# (lb): This has always been confusing to me, and frustrating!
+# - Also, because I saw this in an article today after just having
+#   re-read `man readline` options, it means I wasn't paying very
+#   close attention to the documentation, ha!
+set revert-all-at-newline on
+
+# ***
+
+# See ~/.homefries/bin/reset
+Control-l: 'reset\n'
+
+# ***
+
+# Key bindings to skip words by spaces (and to not stop at a dash, etc.).
+#
+# - With thanks to:
+#
+#     https://superuser.com/questions/547130/bash-readline-for-move-forward-by-whitespace-delimited-word/1023236
+#
+# - An alternative to the shell-Xard-word commands is to use Vi commands
+#   (which work in readline Emacs mode):
+#
+#     "\C-f": vi-fWord
+#     "\C-b": vi-bWord
+#
+#   Note that Vi commands are not well documented. For a list of them, see:
+#
+#     bind -P | grep -w vi
+#
+#   See also Bash source, e.g.,
+#
+#     https://git.savannah.gnu.org/cgit/bash.git/tree/lib/readline/funmap.c?h=devel#n178
+#
+# - These commands are available in Bash 4.0. They move forward/back to the
+#   end/start on the next/current or previous word, and "words are delimited
+#   by non-quoted shell metacharacters." [man bash]
+#
+# - HINT: To determine the escape sequence to use here, type Ctrl-V to the terminal,
+#   and then the desired key combination. E.g., Ctrl-V Ctrl-Shift-Left prints ^[[1;6D.
+#
+#   - We also replace ^[ with \e, not sure why, but doesn't work otherwise,
+#     and that's how I see other commands setup, e.g., `bind -P` shows:
+#
+#       backward-word can be found on "\e\e[D", "\e[1;5D", "\e[5D", "\eb".
+#       forward-word can be found on "\e\e[C", "\e[1;5C", "\e[5C", "\ef".
+#
+#     (Which you'll find in /etc/inputrc).
+#
+# Here we map Ctrl-Shift-Left and Ctrl-Shift-Right to jumping words by whitespace.
+#
+# - These are new mappings. By default, Ctrl-Shift-Left and Ctrl-Shift-Right have
+#   the same effect as Shift-Left and Shift-Right, which simply print 'D' or 'C'.
+#
+"\e[1;6D": shell-backward-word
+"\e[1;6C": shell-forward-word
+
+# ***
+
