@@ -29,5 +29,3 @@ This software is released under the MIT license (see `LICENSE` file for more)
 
 &lt;https://github.com/DepoXy/dot-inputrc/issues&gt;
 
-
-
