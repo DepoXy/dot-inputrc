@@ -72,6 +72,9 @@
 #     "\e[5C": forward-word
 #     "\e\e[C": forward-word
 
+# SAVVY/2023-02-08: \e is an Alt keypress.
+# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Command-Line-Editing
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # /etc/inputrc - global inputrc for libreadline
@@ -378,6 +381,7 @@ set completion-ignore-case on
 
 # Press tab and you get truncated file names, like ...-2.jpg, ...-3.jpg, etc.
 # MAYBE/2020-02-07: Another example I saw used '3' here. What's the diff?
+#  set completion-prefix-display-length 3
 set completion-prefix-display-length 2
 
 # ***
@@ -490,7 +494,7 @@ set show-all-if-unmodified on
 #  "\e[B": history-search-forward
 
 # 2020-02-07: Another suggestion for history search is C-p/C-n,
-# but AFAICK, these are already wired as such.
+# but AFAICT, these are already wired as such.
 #   "\C-p":history-search-backward
 #   "\C-n":history-search-forward
 
@@ -518,9 +522,9 @@ set show-all-if-unmodified on
 #
 #  "\ex": 'cd !$ \015ls\015'
 
-# Alt-z: Undo directory change (basically runs ``cd -``).
+# Alt-z: Undo directory change (basically runs `cd -`).
 # - 2020-02-11: Ha! I kinda like this...
-#
+# SAVVY: \015 represent Enter (alt: \C-m).
 "\ez": 'cd -\015'
 
 # Surround line with $(...) command substitution (subshell) syntax.
