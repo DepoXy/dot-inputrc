@@ -647,3 +647,9 @@ Control-l: 'reset\n'
 
 # ***
 
+# Remember that terminal mostly ignores case with <Ctrl-> bindings, so
+# cannot bind <Ctrl-Shift-W> to delete to start, instead using <Alt-w>.
+"\ew": backward-kill-line
+
+# ***
+
