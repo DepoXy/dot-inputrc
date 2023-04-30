@@ -653,3 +653,12 @@ Control-l: 'reset\n'
 
 # ***
 
+# SAVVY/2023-04-30: Note the <C-w> deletes to whitespace,
+# whereas <C-S-h> deletes to non-alphanum.
+#
+#  $ bind -P | grep -e ^backward-kill-word -e ^unix-word-rubout
+#  backward-kill-word can be found on "\e\C-h", "\e\C-?".
+#  unix-word-rubout can be found on "\C-w".
+
+# ***
+
