@@ -445,6 +445,31 @@ set show-all-if-ambiguous on
 #  to be listed immediately instead of ringing the bell."
 set show-all-if-unmodified on
 
+# ***
+
+# In latest LM 21.3, pasted text is initially selected.
+# - If you're not pasting a newline, the behavior is similar to how it
+#   used to work, just type something and the highlight goes away.
+# - However, if you're pasting a newline, you have to press Enter to
+#   send the pasted-and-selected text to the shell.
+#   - I prefer the old behavior: paste as though I typed it, I know
+#     what I'm doing.
+# - Technically, per docs: enabling this mode "configures the terminal to
+#   insert each paste into the editing buffer as a single string of
+#   characters, instead of treating each character as if it had been
+#   read from the keyboard. This is called putting the terminal into
+#   bracketed paste mode; it prevents Readline from executing any editing
+#   commands bound to key sequences appearing in the pasted text." Though
+#   in practice, when you hit Enter, the pasted text is still interpreted
+#   as though it were read char-by-char from the keyboard.
+#   https://tiswww.case.edu/php/chet/readline/readline.html
+#   - But really, this mode is more of a security enhancement: "Bracketed
+#     paste mode is the default setting to avoid accidentally executing
+#     malicious commands." Which I get. But I'm pretty careful about my
+#     clipboard.
+#     https://bugzilla.redhat.com/show_bug.cgi?id=2079078
+set enable-bracketed-paste off
+
 # ───────────────────────────────────────────────────────────────── #
 # ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
 # ───────────────────────────────────────────────────────────────── #
