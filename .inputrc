@@ -52,7 +52,7 @@
 # a bad OS, and I like ensuring that all my open source code runs on
 # both, but sometimes it's a frustrating, seemingly lonely journey.
 # Though I will say, if you consider my 3750-line macOS `defaults`
-# customizer ~/.kit/mOS/macOS-onboarder/slather-defaults.sh maybe
+# customizer ~/.kit/mOS/macOS-onboarder/bin/slather-defaults.sh maybe
 # it's no wonder not many Linux-lubbers take the time to onboard macOS
 # to their liking -- it's a real pain in the Apple.)
 
