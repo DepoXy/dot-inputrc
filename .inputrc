@@ -667,6 +667,7 @@ Control-l: 'reset\n'
 # - These are new mappings. By default, Ctrl-Shift-Left and Ctrl-Shift-Right have
 #   the same effect as Shift-Left and Shift-Right, which simply print 'D' or 'C'.
 #
+# REMEM: Bash v4+ commands.
 "\e[1;6D": shell-backward-word
 "\e[1;6C": shell-forward-word
 
