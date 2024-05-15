@@ -228,14 +228,28 @@ $endif
 #         "\et": transpose-words
 #         "\eu": upcase-word
 #         "\ey": yank-pop
-
-#       WRKLG/2020-02-11: Hrmm:
 #
-#         $ bind -m emacs-standard -X
-#         "\C-t": "fzf-file-widget"
-#         $ bind -m emacs-standard -s
-#         "\C-r": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"
-#         "\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"
+#       CXREF/2024-05-11: fzf binds <Alt-c> to open working dir:
+#         ~/.kit/go/fzf/shell/key-bindings.bash
+#       - SAVVY: See all key seq. macro strs. via `bind -s`.
+#       - SAVVY: See all key seq. bound to shell cmds via `bind -X`
+#                  (not docced in macOS `man bash`, but works).
+#       - REFER/2020-02-11: Special bindings (LM 19.3):
+#           $ bind -m emacs-standard -X
+#           "\C-t": "fzf-file-widget"
+#
+#           $ bind -m emacs-standard -s
+#           "\C-r": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\er\e^"
+#           "\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"
+#       - REFER/2024-05-11: Special bindings (macOS 14.4.1):
+#           $ bind -m emacs-standard -X
+#           "\C-r": "__fzf_history__"
+#           "\C-t": "fzf-file-widget"
+#
+#           $ bind -m emacs-standard -s
+#           "\C-l": "reset\C-j"
+#           "\ec": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"
+#           "\ez": "cd -\C-m"
 
 # yank-nth-arg M-C-y   ---> how do you send 'n' arg? m-c-y just grabs 1st arg...
 #   -- oh yeah, esc+number or alt+number first, then command,
