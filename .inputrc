@@ -513,6 +513,51 @@ set enable-bracketed-paste off
 
 # ***
 
+# THANX: https://bluz71.github.io/2018/03/15/bash-shell-tweaks-tips.html
+
+# Tab cycles through matches for the prefix you typed.
+TAB: menu-complete
+# Shift-Tab cycles backwards through matches.
+"\e[Z": menu-complete-backward
+
+# When this setting is on, when there are multiple matches, the first
+# <Tab> shows the prefix; when it's off, it shows the first match.
+# - E.g., suppose you have foo/ and foobar/:
+#   - When this setting is off:
+#       $ ll foo<Tab>
+#       foo/       foobar/
+#       $ ll foo/
+#   - But when this setting is on:
+#       $ ll foo<Tab>
+#       foo/       foobar/
+#       $ ll foo
+# - Though in either case, if you keep <Tab>bing, you'll see the same
+#   options in either case, e.g., when it's on:
+#     foo/ -> foobar/ -> foo -> foo/ -> ...
+#   Or when it's off:
+#     foo -> foobar/ -> foo/ -> foo -> ...
+# So really it's a toss-up which is better, if either...
+# - I'd probably keeping tabbing until I see the correct match,
+#   so we'll leave this disabled.
+#
+#  set menu-complete-display-prefix on
+
+# "When a completion matches multiple items
+#  highlight the common matching prefix in color."
+# - Works if you `set colored-stats on`
+#   but not that useful, IMO.
+#
+#  set colored-completion-prefix on
+
+# "Disable beeps & bells, and do not display control characters."
+# - I've not had any bell sounds or control character issues,
+#   so I've noted these options, but I've not enabled them.
+#
+#  set bell-style none
+#  set echo-control-characters off
+
+# ***
+
 # Change search history from Ctrl-R/Ctrl-S
 #
 #"\e[5~": history-search-backward
