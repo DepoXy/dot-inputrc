@@ -569,13 +569,19 @@ TAB: menu-complete
 #             Hit Up/Down to cycle history
 #              rather than Ctrl-R/Ctrl-S.
 #  https://stackoverflow.com/questions/68372/what-is-your-single-most-favorite-command-line-trick-using-bash
-"\C-[[A": history-search-backward
-"\C-[[B": history-search-forward
+#
+# SAVVY/2024-07-12: See comments below: Let's try history-substring-* instead.
+#
+#  "\C-[[A": history-search-backward
+#  "\C-[[B": history-search-forward
+#
 # See alternative, equivalent escaping (either the previous
 # format or the following format works on both Ubuntu and macOS)
-# (FIXME: though a comment elsewhere herein says not to use \e ??):
-#  "\e[A": history-search-backward
-#  "\e[B": history-search-forward
+# (though at one time this file had comment saying not to use \e
+#  but where's that comment now?? Also \e bindings seem to work
+#  fine on macOS (circa 2024)):
+#   "\e[A": history-search-backward
+#   "\e[B": history-search-forward
 
 # 2020-02-07: Another suggestion for history search is C-p/C-n,
 # but AFAICT, these are already wired as such.
@@ -585,6 +591,40 @@ TAB: menu-complete
 # For some reason I'm including some guy's Mac-style .inputrc entries:
 #  bind '"\e[A"':history-search-backward
 #  bind '"\e[B"':history-search-forward
+
+# REFER: https://bluz71.github.io/2018/03/15/bash-shell-tweaks-tips.html
+#
+# "Enable substring history navigation with the UP and DOWN arrow keys.
+#  This will use the already typed text as a required substring when
+#  navigating through history."
+#
+# Oh, wow, this matches not as a prefix, but as a substring *anywhere*
+# in a previous command.
+# - If you copy-paste from notes and have leading whitespace, it'll
+#   ignore it and show you previous matching commands with the prefix
+#   you typed, ignoring leading whitespace.
+# - But it also matches anywhere in a previous command, and not just
+#   as a prefix.
+#   - E.g., enter these two commands:
+#       $ ll foo
+#       $ echo ll
+#     Then type:
+#       $ ll<Up>
+#     And it'll show:
+#       $ echo ll
+#     And <Up> again shows:
+#       $ ll foo
+#     (Vs. `history-search-backward` which just shows `ll foo`)
+#
+# SAVVY: Note that readline moves the cursor to the start of the
+# line when you use these commands; but with the more basic
+# history-search-backward/forward, it leaves the cursor after
+# the prefix string you typed. Not sure if that'll annoy you or
+# not.
+#
+# NOWON/2024-07-13: Giving this a go!
+"\e[A": history-substring-search-backward
+"\e[B": history-substring-search-forward
 
 # ***
 
