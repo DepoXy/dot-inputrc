@@ -493,6 +493,27 @@ set enable-bracketed-paste off
 # #######################################################################
 
 # This one might be too weird...
+# ... indeed, after a week of testing, that's not the way author's
+#     brain works. I prefer the auto-complete to stop and not fill
+#     in a suggestion, because often I want to see the list of
+#     possibilities, and then I'll pick one.
+#     - With `menu-complete`, you'll either have to backspace, or
+#       you'll have to keep tabbing to find the match you want.
+#     - But where it really breaks is when you want to, e.g.,
+#       copy to a new filename. But if you auto-complete the
+#       final directory component to where you want to copy,
+#       and then `menu-complete` auto-fills the first filename
+#       from that directory, you *have* to delete back to the
+#       path separator to type the new filename you want to
+#       copy to.
+#     - As a compromise, let's wire Shift-Tab to menu-complete
+#       (or menu-complete-backward), so user can opt-into the
+#       menu-complete behavior.
+#       - MAYBE: Find a different binding for `menu-complete`
+#         and disable Shift-Tab (or move to another binding,
+#         too), otherwise Tab and Shift-Tab are not quite
+#         complementary.
+#         - MAYBE: What about Ctrl-Tab? Or Cmd-Right/-Left?
 
 # ** Control-j: menu-complete**
 # ** Control-k: menu-complete-backward**
@@ -516,7 +537,7 @@ set enable-bracketed-paste off
 # THANX: https://bluz71.github.io/2018/03/15/bash-shell-tweaks-tips.html
 
 # Tab cycles through matches for the prefix you typed.
-TAB: menu-complete
+#  TAB: menu-complete
 # Shift-Tab cycles backwards through matches.
 "\e[Z": menu-complete-backward
 
