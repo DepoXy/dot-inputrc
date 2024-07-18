@@ -75,6 +75,9 @@
 # SAVVY/2023-02-08: \e is an Alt keypress.
 # https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Command-Line-Editing
 
+# HINT: Run `cat` to copy-paste key sequences.
+# - E.g., run `cat`, then press <Shift-Up> to see its sequence.
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # /etc/inputrc - global inputrc for libreadline
