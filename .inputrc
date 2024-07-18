@@ -594,10 +594,10 @@ set enable-bracketed-paste off
 #              rather than Ctrl-R/Ctrl-S.
 #  https://stackoverflow.com/questions/68372/what-is-your-single-most-favorite-command-line-trick-using-bash
 #
-# SAVVY/2024-07-12: See comments below: Let's try history-substring-* instead.
-#
-#  "\C-[[A": history-search-backward
-#  "\C-[[B": history-search-forward
+# SAVVY/2024-07-12: See alt. history-substring-* commands
+#                   on <Shift-Up>/<Shift-Down>, wired below.
+"\C-[[A": history-search-backward
+"\C-[[B": history-search-forward
 #
 # See alternative, equivalent escaping (either the previous
 # format or the following format works on both Ubuntu and macOS)
@@ -640,15 +640,27 @@ set enable-bracketed-paste off
 #       $ ll foo
 #     (Vs. `history-search-backward` which just shows `ll foo`)
 #
-# SAVVY: Note that readline moves the cursor to the start of the
-# line when you use these commands; but with the more basic
-# history-search-backward/forward, it leaves the cursor after
-# the prefix string you typed. Not sure if that'll annoy you or
-# not.
+# BWARE: Note that readline moves the cursor to the start of the
+# line when you use the 'substring' commands; but with the more
+# basic prefix-only 'search' commands (set above) it leaves the
+# cursor after the prefix string you typed.
+# - I.e., invoking history-substring-search-backward moves the
+#   cursor to start of line.
+# - Because I'll often use the cursor position to my advantage.
+#   So let's keep the basic history-search-* commands on <Up>
+#   and <Down>, and we'll assign the history-substring-search-*
+#   commands to <Shift-Up> and <ShiftDown>.
+#   - E.g., I might run `ls foo/bar` first. Then I'll type
+#     `ls<UP>`, then `<C-w>vim`, and now the prompt reads:
+#     `vim foo/bar`.
+#     - But with the substring commands, I won't be able to
+#       <C-w> to delete the word, because the cursor will have
+#       been moved to the first column.
 #
-# NOWON/2024-07-13: Giving this a go!
-"\e[A": history-substring-search-backward
-"\e[B": history-substring-search-forward
+# HINT: Run `cat` to copy-paste key sequences.
+# - E.g., run `cat`, then press <Shift-Up> to see its sequence.
+"\e[1;2A": history-substring-search-backward
+"\e[1;2B": history-substring-search-forward
 
 # ***
 
