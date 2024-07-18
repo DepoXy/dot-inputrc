@@ -6,6 +6,13 @@
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
+# USAGE: After editing this file, you can reload with
+#        C-x C-r (by default bound to re-read-init-file)
+#
+# - REFER: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Miscellaneous-Commands
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
+
 # SAVVY/2022-10-17: Per `man bash`, you can easilky `bind -f <path>`
 # to load new bindings from a file, and you can `bind -u <function>`
 # to unbind all keys bound to the named <function>, but there's not
