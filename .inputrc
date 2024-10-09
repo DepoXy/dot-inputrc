@@ -138,28 +138,25 @@ $endif
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
-# 2020-02-11: Ctrl-Shift-t Ctrl+T C-S-t was mapped to mate-terminal's new-tab,
-# but I fixed that.
-# - Oh, wait, mate-terminal captures Ctrl+Shift+CHAR combos,
-#   but I don't think readline differentiates between Ctrl+[a-z] and Ctrl+[A-Z],
-#   because ASCII compatibility... Ctrl+Shift works with some special keys and punct?
-#   so confused...
-"\C-T": transpose-chars
-# Works, remembering that regular Alt-t is transpose-words.
-# Huh. The do-lowercase-version shows up in
-#   $ bind -p | grep '"\\e' | sort
-#   ...
-#   "\eT": do-lowercase-version
-# but it's not in the docs. The upcase version is, though:
-#   do-uppercase-version (M-a, M-b, M-x, ...)
-#     If  the  metafied character x is lowercase, run the command
-#     that is bound to the corresponding uppercase charac‐ter.
-# OH! I finally get it!!!
-# - If you see `do-lowercase-version`, it just means to run the command
-#   bound to the lowercase version! So, by default, Alt-T is alias to alt-t,
-#   essentially. Or, Alt-T runs the command bound to Alt-t.
-#   So if you see this, feel free to override!
-# 2020-02-11: Aha! Why didn't I think of this earlier...
+# Here we bind <Alt-T> to transpose-chars (already the default, but
+# included for readability), and we bind the <Shift-Alt-T> uppercase
+# variant to transpose-words.
+#
+# - By default, <Shift-Alt-T> aliases to <Alt-T>:
+#
+#     "\eT": do-lowercase-version
+#
+#   - SAVVY: If you see `do-lowercase-version`, it just means to run
+#     the command bound to the lowercase variant.
+#
+# - HSTRY: The author has previously used <Ctrl-T> as transpose-chars
+#   (which matches a similar binding in their Vim), but their shell
+#   includes the fzf CLI fuzzy finder, which binds to <Ctrl-T>:
+#
+#     https://github.com/junegunn/fzf
+#
+#   - And unless I wanna fork fzf, that binding is non-negotiable.
+
 "\et": transpose-chars
 "\eT": transpose-words
 
