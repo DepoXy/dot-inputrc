@@ -236,8 +236,9 @@ $endif
 #         "\eu": upcase-word
 #         "\ey": yank-pop
 #
-#       CXREF/2024-05-11: fzf binds <Alt-c> to open working dir:
-#         ~/.kit/go/fzf/shell/key-bindings.bash
+#       CXREF/2024-05-11: Homefries wires `fzf`, which binds <Alt-c> to `cd`
+#       to fuzzily-found directory path. In a DepoXy environment, see:
+#           ~/.kit/go/fzf/shell/key-bindings.bash
 #       - SAVVY: See all key seq. macro strs. via `bind -s`.
 #       - SAVVY: See all key seq. bound to shell cmds via `bind -X`
 #                  (not docced in macOS `man bash`, but works).
@@ -688,7 +689,7 @@ set enable-bracketed-paste off
 
 # Alt-z: Undo directory change (basically runs `cd -`).
 # - 2020-02-11: Ha! I kinda like this...
-# - SAVVY: \015 represent Enter (alt: \C-m).
+# - SAVVY: \015 represents Enter (altly: \C-m).
 # - ATTTN: macOS users: For Alt-presses to work (otherwise macOS
 #   inserts special characters, e.g., Alt-z injects 'Ω'):
 #   - iTerm: ✓ "Use option as Meta key"
