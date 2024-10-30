@@ -772,6 +772,10 @@ set revert-all-at-newline on
 #   password to the clipboard, press <Ctrl-L> in any terminal to clear
 #   the clipboard after you've pasted the password somewhere.
 #
+# Readline default:
+#
+#   Control-l: clear-screen
+#
 # REFER: See the Homefries command:
 #
 #   https://github.com/landonb/home-fries/blob/release/bin/clear
