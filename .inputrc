@@ -766,7 +766,7 @@ set revert-all-at-newline on
 # ***
 
 # See ~/.kit/sh/home-fries/bin/reset
-Control-l: 'reset\n'
+Control-l: 'clear\n'
 
 # ***
 
