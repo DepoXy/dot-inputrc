@@ -765,7 +765,22 @@ set revert-all-at-newline on
 
 # ***
 
-# See ~/.kit/sh/home-fries/bin/reset
+# USAGE: Press <Ctrl-L> to call the built-in 'clear' command; or to call
+# Homefries' 'clear' command, if on PATH, which also clears the clipboard.
+#
+# - UCASE: For example, if you've run `pass` (Password Store) to copy a
+#   password to the clipboard, press <Ctrl-L> in any terminal to clear
+#   the clipboard after you've pasted the password somewhere.
+#
+# REFER: See the Homefries command:
+#
+#   https://github.com/landonb/home-fries/blob/release/bin/clear
+#
+#     https://github.com/landonb/home-fries#🍟
+#
+# CXREF: Or if you're within a DepoXy environment, find it locally:
+#
+#     ~/.kit/sh/home-fries/bin/clear
 Control-l: 'clear\n'
 
 # ***
