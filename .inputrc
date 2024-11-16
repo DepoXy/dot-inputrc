@@ -836,9 +836,27 @@ Control-l: 'clear\n'
 
 # ***
 
-# Remember that terminal mostly ignores case with <Ctrl-> bindings, so
-# cannot bind <Ctrl-Shift-W> to delete to start, instead using <Alt-w>.
+# Bind <Alt-w> to delete to start of line.
 "\ew": backward-kill-line
+# SAVVY: The terminal *mostly* ignores case with <Ctrl-> bindings.
+# - So we cannot bind <Shift-Ctrl-W> from ~/.inputrc
+# - Though sometimes you can work around this limitation.
+# - E.g., in Alacritty, you can map <Shift-Ctrl> to another character.
+#   - DepoXy maps <Shift-Ctrl-W> to a character from the Unicode Private
+#     Use Area (PUA), specifically to \uE016 ( ).
+# - But there's no way to bind Unicode, AFAIK.
+# - The docs say you you can bind any eight-bit character (`man readline`):
+#     \nnn   the eight-bit char whose val is the octal val nnn (1 to 3 digits)
+#     \xHH   the eight-bit char whose val is the hexadecimal val HH (1 or 2 hex digits)
+#   but I don't see any way to bind a wide character — and these don't work:
+#     "": backward-kill-line
+#     "\xE016": backward-kill-line
+# - Oddly, if I map <Shift-Ctrl-W> to an extended ASCII character in
+#   Alacritty.toml, e.g., I tried ASCII 242 ("ò", 0xf2, 0o362), I still
+#   cannot get either binding to work:
+#     "\n362": backward-kill-line
+#     "\xF2": backward-kill-line
+#   To which I say, "phooey!"
 
 # ***
 
