@@ -860,8 +860,9 @@ Control-l: 'clear\n'
 
 # ***
 
-# REFER/2025-02-12: 2 different ways to kill back-word, from greediest to least:
+# REFER/2025-02-12: 3 different ways to kill back-word, from greediest to least:
 #
+# - <Ctrl-b>        | unix-word-rubout     | boundary: whitespace      | (see bind below)
 # - <Ctrl-w>        | unix-filename-rubout | boundary: space and slash | (via Home-fries)
 # - <Alt-Backspace> | backward-kill-word   | boundary: non-alphanum    | (also <Esc><BS>)
 
@@ -967,6 +968,15 @@ Control-l: 'clear\n'
 # CXREF/2025-02-11: See Home-fries for <Ctrl-w> wiring.
 # - On a DepoXy host at:
 #   ~/.kit/sh/home-fries/lib/term/readline-bind-ctrl-b-fname-rubout.sh
+
+# USAGE/2020-09-09: Ctrl-b is more greedy Ctrl-w (what default Ctrl-w is).
+#
+# - Default <C-b> moves cursor back one, same as left arrow,
+#   so not losing anything, really:
+#
+#     $ bind -P | grep -e C-b
+#     backward-char can be found on "\C-b", "\eOD", "\e[D".
+"\C-b": unix-word-rubout
 
 # ***
 
