@@ -681,7 +681,7 @@ set enable-bracketed-paste off
 
 # Alt-x: Jump to the target folder of the last command and run ls.
 # Use case: Run after, e.g., `tar xvzf ...`.
-# Note that \015 is ENTER, and can always be writ \C-m
+# Note that \015 is ENTER, and can also be writ \C-m
 #
 # FIXME/2020-02-11: Give this a shot. Verify binding!
 #
