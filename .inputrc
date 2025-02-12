@@ -860,12 +860,113 @@ Control-l: 'clear\n'
 
 # ***
 
-# SAVVY/2023-04-30: Note the <C-w> deletes to whitespace,
-# whereas <C-S-h> deletes to non-alphanum.
+# REFER/2025-02-12: 2 different ways to kill back-word, from greediest to least:
 #
-#  $ bind -P | grep -e ^backward-kill-word -e ^unix-word-rubout
-#  backward-kill-word can be found on "\e\C-h", "\e\C-?".
-#  unix-word-rubout can be found on "\C-w".
+# - <Ctrl-w>        | unix-filename-rubout | boundary: space and slash | (via Home-fries)
+# - <Alt-Backspace> | backward-kill-word   | boundary: non-alphanum    | (also <Esc><BS>)
+
+# REFER:
+# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Bindable-Readline-Commands
+#
+#   backward-kill-word (M-DEL)
+#   Kill the word behind point.
+#   Word boundaries are the same as backward-word.
+#
+#     backward-word (M-b)
+#     Move back to the start of the current or previous word.
+#     Words are composed of letters and digits.
+#
+#   unix-word-rubout (C-w)
+#   Kill the word behind point, using white space as a word boundary.
+#   The killed text is saved on the kill-ring.
+#
+#   unix-filename-rubout ()
+#   Kill the word behind point, using white space and the slash character
+#   as the word boundaries. The killed text is saved on the kill-ring.
+#
+#   shell-backward-kill-word ()
+#   Kill the word behind point. Word boundaries are the same as shell-backward-word.
+#
+#     shell-backward-word (M-C-b)
+#     Move back to the start of the current or previous word.
+#     Words are delimited by non-quoted shell metacharacters.
+#
+#   unix-word-rubout (C-w)
+#   Kill the word behind point, using white space as a word boundary.
+#   The killed text is saved on the kill-ring.
+#
+# - backward-kill-word is least greedy, then
+#   shell-backward-kill-word, followed by
+#   unix-filename-rubout
+#
+#   e.g., to delete this string:
+#
+#     sdfjh!@#$%^&*()_+aaa,d<.d>./F/?l;k:f'"f[f{f]f}f\F\f|f
+#
+#   it takes 16 motions with backward-kill-word (default <Alt-Delete>),
+#   6 motions with shell-backward-kill-word,
+#   3 motions with unix-filename-rubout, and
+#   1 motion with unix-word-rubout (default <Ctrl-w>).
+#
+# - Note that default (Neo)Vim <Ctrl-w> is not greedy,
+#   akin to backward-kill-word.
+#
+# REFER: Check current settings:
+#
+#   $ bind -P | grep -e "\-kill-word" -e "\-rubout"
+#   backward-kill-word can be found on "\e\C-h", "\e\C-?".
+#   shell-backward-kill-word is not bound to any keys
+#   shell-kill-word can be found on "\e\C-d".
+#   unix-filename-rubout is not bound to any keys
+#   unix-word-rubout can be found on "\C-w".
+#   vi-rubout is not bound to any keys
+#   vi-unix-word-rubout is not bound to any keys
+#
+# - DUNNO: Is "\e\C-h" <Shift-Ctrl-H> on LM/Debian?
+
+# SAVVY: <Ctrl-w> is overridden by stty terminal driver:
+#   $ stty -a
+#   ...
+#   cchars: ...
+#   ... werase = ^W;
+# Which override readline bindings unless we disable reading stty settings.
+# E.g.,:
+#   set bind-tty-special-chars Off
+#   "\C-w": unix-filename-rubout
+#   # ALTLY: Control-w: unix-filename-rubout
+#   #  $ bind \\C-w:unix-filename-rubout
+# Though I'm unsure if there are side-effects to not reading the stty
+# chars. So prefer just disabling werase from the shell:
+#   stty werase undef
+# which we'll leave as an exercise for the reader.
+# - WEIRD: If you try the stty line from this file, e.g,. uncomment the
+#   next line, save, then <C-x><C-r> in a shell to reload this file:
+#     stty werase undef
+#   It disables your 's' key! Typing 's' does nothing in the terminal.
+#   - WEIRD: Even more strangely, copying the command and pasting it to
+#     the terminal also breaks 's' key from working, and echoes this:
+#       tty werae undef
+#     without any esses!
+#     - But it works if you type it manually...!?
+#
+# THANX: The stty knowledge thanks to here:
+#   https://unix.stackexchange.com/questions/27927/is-it-possible-to-configure-ctrl-w-delete-word
+#   https://shallowsky.com/blog/linux/bash-word-erase.html
+#   https://lists.gnu.org/archive/html/bug-bash/2005-08/msg00003.html
+#
+# REFER: From the bug-bash mailing list:
+#   "Readline [>= v5.0] reads the stty special character settings and binds
+#    them to their readline equivalents each time readline() is called. It
+#    reads ~/.inputrc once per `program'.
+#
+#   "I made this change [because] changes made with stty were not reflected
+#    in the readline key bindings.
+#
+#   "... Readline-5.1 makes reading the stty characters a settable option."
+
+# CXREF/2025-02-11: See Home-fries for <Ctrl-w> wiring.
+# - On a DepoXy host at:
+#   ~/.kit/sh/home-fries/lib/term/readline-bind-ctrl-b-fname-rubout.sh
 
 # ***
 
