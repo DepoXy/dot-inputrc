@@ -699,9 +699,11 @@ set enable-bracketed-paste off
 #   - iTerm: ✓ "Use option as Meta key"
 #   - alacritty.toml: [window] > option_as_alt = "Both"
 #   Otherwise literal character is used, e.g., Option-z emits 'Ω'.
-"\ez": 'cd -\015'
+"\eZ": 'cd -\015'
+"\ez": 'popd\015'
 # Literal macOS <Option-Z>
-"Ω": 'cd -\015'
+"¸": 'cd -\015'
+"Ω": 'popd\015'
 
 # Surround line with $(...) command substitution (subshell) syntax.
 #
