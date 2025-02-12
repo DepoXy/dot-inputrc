@@ -160,6 +160,10 @@ $endif
 "\et": transpose-chars
 "\eT": transpose-words
 
+# Literal macOS <Option-T> and <Shift-Option-T>
+"†": transpose-chars
+"ˇ": transpose-words
+
 # ───────────────────────────────────────────────────────────────── #
 # ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #
 # ───────────────────────────────────────────────────────────────── #
@@ -690,11 +694,14 @@ set enable-bracketed-paste off
 # Alt-z: Undo directory change (basically runs `cd -`).
 # - 2020-02-11: Ha! I kinda like this...
 # - SAVVY: \015 represents Enter (altly: \C-m).
-# - ATTTN: macOS users: For Alt-presses to work (otherwise macOS
-#   inserts special characters, e.g., Alt-z injects 'Ω'):
+# - ATTTN: macOS users: The Alt-press works if explicitly
+#   enabled:
 #   - iTerm: ✓ "Use option as Meta key"
 #   - alacritty.toml: [window] > option_as_alt = "Both"
+#   Otherwise literal character is used, e.g., Option-z emits 'Ω'.
 "\ez": 'cd -\015'
+# Literal macOS <Option-Z>
+"Ω": 'cd -\015'
 
 # Surround line with $(...) command substitution (subshell) syntax.
 #
@@ -838,6 +845,8 @@ Control-l: 'clear\n'
 
 # Bind <Alt-w> to delete to start of line.
 "\ew": backward-kill-line
+# Literal macOS <Option-W>
+"∑": backward-kill-line
 # SAVVY: The terminal *mostly* ignores case with <Ctrl-> bindings.
 # - So we cannot bind <Shift-Ctrl-W> from ~/.inputrc
 # - Though sometimes you can work around this limitation.
