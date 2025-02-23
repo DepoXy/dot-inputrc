@@ -301,6 +301,9 @@ $endif
 
 # M-# insert-comment M-S-3 -- comments line and hits return!
 # - NO MORE ``<Ctrl-a>echo <ENTER>`` business!
+# `bind -P` → insert-comment can be found on "\e#".
+# Literal macOS <M-#> aka <Shift-Alt-3> aka <Shift-Alt-#> aka "\e#" etc.
+"‹": insert-comment
 
 # emacs ↔ vi editing mode : C-e ↔ M-C-j
 
