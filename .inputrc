@@ -994,3 +994,48 @@ Control-l: 'clear\n'
 
 # ***
 
+# *** Other literal macOS equivalents
+
+# downcase-word can be found on "\el".
+"¬": downcase-word
+
+# kill-word can be found on "\e[3;5~", "\ed".
+"∂": kill-word
+
+# Like <Tab>, but without completing using first match.
+# possible-completions can be found on "\e=", "\e?".
+"≠": possible-completions
+"÷": possible-completions
+
+# On macOS Alacritty, <Ctrl-Alt-R> runs <Ctrl-R>
+#   which is reverse-search-history setup by Bash.
+# revert-line can be found on "\e\C-r".
+
+# On macOS, <Ctrl-Alt-D> shows the desktop.
+# shell-kill-word can be found on "\e\C-d".
+
+# On macOS Alacritty, <Ctrl-Alt-T> runs author <Ctrl-T> FZF command.
+# shell-transpose-words can be found on "\e\C-t".
+
+# Not that I've ever used this...
+# tilde-expand can be found on "\e&".
+"‡": tilde-expand
+
+# upcase-word can be found on "\eu".
+# On macOS, <Alt-u> pauses for the accent mark.
+#   "¨": upcase-word
+# So we'll use <Shift-Alt-D> to complement <Alt-d> downcase
+# (not that I'll remember).
+"Î": upcase-word
+
+# DUNNO: <Alt-.> just works.
+# yank-last-arg can be found on "\e.", "\e_".
+
+# On macOS, <Ctrl-Alt-{}> presses seem to alias <Ctrl-{}>.
+# yank-nth-arg can be found on "\e\C-y".
+
+# yank-pop can be found on "\ey".
+# - I don't use kill/yank, but you could <Ctrl-K> kill words and
+#   then <Ctrl-y> to paste last kill and <Alt-y> to cycle pasted.
+"¥": yank-pop
+
