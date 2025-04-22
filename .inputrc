@@ -910,18 +910,23 @@ Control-l: 'clear\n'
 #   Kill the word behind point, using white space as a word boundary.
 #   The killed text is saved on the kill-ring.
 #
-# - backward-kill-word is least greedy, then
-#   shell-backward-kill-word, followed by
-#   unix-filename-rubout
+# - <M-Del> backward-kill-word is least greedy, then
+#   -N/A-   shell-backward-kill-word, followed by
+#   <C-W>   unix-filename-rubout
+#   <C-b>   unix-word-rubout
+#   <M-W>   backward-kill-line
 #
 #   e.g., to delete this string:
 #
 #     sdfjh!@#$%^&*()_+aaa,d<.d>./F/?l;k:f'"f[f{f]f}f\F\f|f
 #
-#   it takes 16 motions with backward-kill-word (default <Alt-Delete>),
-#   6 motions with shell-backward-kill-word,
-#   3 motions with unix-filename-rubout, and
-#   1 motion with unix-word-rubout (default <Ctrl-w>).
+#   it takes:
+#   - 16 motions with backward-kill-word (default <Alt-Delete>, aka "\e\C-h", also "\e\C-?"),
+#   -  6 motions with shell-backward-kill-word (default not bound, herein not wired),
+#   -  3 motions with unix-filename-rubout (default <Ctrl-w>), and
+#   -  1 motion  with unix-word-rubout (default <Ctrl-b>, herein also set to <Ctrl-b>).
+#                       (DUNNO: why redeclare it? perhaps macOS and Debian use diff. defaults?)
+#   -  1 motion  with backward-kill-line (herein wired to <Alt-w>)
 #
 # - Note that default (Neo)Vim <Ctrl-w> is not greedy,
 #   akin to backward-kill-word.
@@ -938,6 +943,7 @@ Control-l: 'clear\n'
 #   vi-unix-word-rubout is not bound to any keys
 #
 # - DUNNO: Is "\e\C-h" <Shift-Ctrl-H> on LM/Debian?
+#   - ORNOT: Or is it <Alt-Backspace>?
 
 # SAVVY: <Ctrl-w> is overridden by stty terminal driver:
 #   $ stty -a
