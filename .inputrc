@@ -749,6 +749,9 @@ set enable-bracketed-paste off
 #
 #
 # FIXME/2020-02-11: ENABLE THIS. Verify the binding you want.
+# - SAVVY/2025-09-26: Attn. DepoXy users: there's a GNOME Shell keybinding
+#   at <Alt-/> — see macOS-GNOME-onboarder/bin/slather-gsettings.sh — (for
+#   wm.keybindings raise-or-lower), so pick a diff. binding to demo this.
 #
 #   "\e/": '"$(!!|fzf)"\C-a \C-m\C-m'
 
