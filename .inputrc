@@ -11,6 +11,9 @@
 #
 # - REFER: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Miscellaneous-Commands
 
+# REFER: *GNU Readline Library*
+# https://tiswww.case.edu/php/chet/readline/readline.html
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 # SAVVY/2022-10-17: Per `man bash`, you can easilky `bind -f <path>`
