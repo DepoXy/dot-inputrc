@@ -761,6 +761,47 @@ set enable-bracketed-paste off
 
 # ***
 
+# HIGHS/2026-10-25: Readline "Undo" commands reminder:
+# - revert-line (M-r) — "Undo all changes made to this line."
+#   - UCASE: You <Up>'d to fetch a line from history, fuhhed
+#     up, and now want to reset all edits to it you just made.
+# - undo (C-_ or C-x C-u) — "Incremental undo, separately remembered for each line."
+#   - UCASE: Undo a paste, etc.
+
+# SAVVY/2026-10-25: Author's Alacritty uses <Shift-Ctrl-_> for Zoom out,
+# shadowing readline's built-in 'undo' (at <C-_> as well as <C-x C-u>).
+# - Let's remap 'undo' from <Shift-Ctrl-R> (which is sort of a "freebie",
+#   because Readline technically doesn't recognize Shift-Ctrl presses,
+#   but we can use the OS terminal shell to do some keymapping magic).
+#
+# SETUP: How to wire \uE102 between Alacritty and Readline:
+# - Alacritty:
+#     [[keyboard.bindings]]
+#     key = "R"
+#     mods = "Control|Shift"
+#     chars = "\uE102"
+# - readline:
+#     # Bind the UTF-8 bytes of U+E102
+#     "\xee\x84\x82": forward-search-history
+#
+# - Altly: Using U+E000 (\uE000), and Kitty:
+#     - Kitty:
+#       # Map ctrl+shift+r to output the PUA character U+E000 encoded in UTF-8
+#       map ctrl+shift+r send_text all \ue000
+#     - readline:
+#       # Bind the UTF-8 bytes of U+E000
+#       "\xee\x80\x80": undo
+#
+# Bind UTF-8 bytes of U+E011
+# - USYNC: UTF-8 U+E011 / Hex bytes U+E011 / alacritty.toml, kitty.conf, ~/.inputrc
+# - ALTLY: Using literal also works, e.g.:
+#   # Use Alacritty.toml to print literal \uE011, then copy it.
+#   "": undo
+# BNDNG: <Shift-Ctrl-R> (via PUA \uE011)
+"\xee\x80\x91": undo
+
+# ***
+
 # 0b10 [2bit hist] nuggets.
 
 # - Map C-k to killing whole line, not just what's after cursor.
